@@ -13,6 +13,7 @@
     "@types/react-dom": "^18.2.5",
     "antd": "^5.4.6",
     "axios": "^1.4.0",
+    "dayjs": "^1.11.10",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",

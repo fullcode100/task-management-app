@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Button, Form, Input, DatePicker, Typography, Space } from "antd";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 const { Title } = Typography;
 
@@ -35,7 +36,12 @@ const TaskForm: React.FC<TaskFormProps> = ({
   const [form] = Form.useForm();
 
   React.useEffect(() => {
-    form.setFieldsValue(task);
+    console.log("date:", task?.scheduled_date);
+    form.setFieldsValue({
+      title: task?.title,
+      detail: task?.detail,
+      scheduled_date: dayjs(task?.scheduled_date),
+    });
   }, [form, task]);
 
   return (
@@ -67,7 +73,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
         name="scheduled_date"
         rules={rules.scheduled_date}
       >
-        <DatePicker showTime style={{ width: "100%" }} />
+        <DatePicker style={{ width: "100%" }} />
       </Form.Item>
 
       <div style={{ textAlign: "center", margin: "15px 0" }}>

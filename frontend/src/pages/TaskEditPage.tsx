@@ -9,6 +9,7 @@ import Block from "../components/common/Block";
 import TaskForm, { TaskData } from "../components/task/TaskForm";
 import { useAuth } from "../utils/auth";
 import { createTask, getTask, updateTask } from "../api/task";
+import dayjs from "dayjs";
 
 const Context = React.createContext({ name: "Default" });
 
@@ -36,11 +37,11 @@ const TaskEditPage: React.FC = () => {
   });
 
   React.useEffect(() => {
-    if (isSuccess && data) {
+    if (isSuccess && data && !task) {
       setTask({
         title: data.data.title,
         detail: data.data.detail,
-        scheduled_date: moment(data.data.scheduled_date),
+        scheduled_date: new Date(data.data.scheduled_date),
       });
     }
     if (error) {
@@ -48,7 +49,7 @@ const TaskEditPage: React.FC = () => {
         localStorage.removeItem("authtoken");
       }
     }
-  }, [data, isLoading, isSuccess, error, action]);
+  }, [data, isLoading, isSuccess, error]);
 
   const saveTaskMutation = useMutation({
     mutationFn: (formData: API.TaskItem) => {
@@ -61,7 +62,7 @@ const TaskEditPage: React.FC = () => {
   });
 
   const handleSubmit = (data: TaskData) => {
-    data.scheduled_date = moment(data.scheduled_date).toISOString();
+    data.scheduled_date = dayjs(data.scheduled_date);
     saveTaskMutation.mutate(data);
   };
 
